@@ -1,0 +1,5 @@
+project: rnshah9/mayhem-checkedc-clang
+target: checked-clang
+
+cmds:
+  - cmd: ./clang @@
