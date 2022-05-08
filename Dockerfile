@@ -3,13 +3,11 @@ FROM --platform=linux/amd64 ubuntu:20.04 as builder
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y make cmake ccache ninja-build clang git
 
-
 WORKDIR /checkedc-clang
 ADD . /checkedc-clang/src
 
 WORKDIR /checkedc-clang/src/llvm/projects/checkedc-wrapper
 RUN git clone https://github.com/Microsoft/checkedc
-
 
 WORKDIR /checkedc-clang/build
 RUN cmake -G Ninja -DLLVM_ENABLE_PROJECTS=clang   // Required to enable Clang build \
@@ -31,11 +29,4 @@ RUN cmake -G Ninja -DLLVM_ENABLE_PROJECTS=clang   // Required to enable Clang bu
     /checkedc-clang/src/llvm 
 
 RUN ninja clang
-
-
-FROM --platform=linux/amd64 ubuntu:20.04 
-
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y binutils gcc-multilib
-
-COPY --from=builder /checkedc-clang/build/bin/clang .
+WORKDIR /checkedc-clang/build/bin/
