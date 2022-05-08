@@ -1,6 +1,5 @@
 project: rnshah9/mayhem-checkedc-clang
 target: llvm-tblgen
-image: ghcr.io/rnshah9/playground:checkedc-clang
 
 cmds:
   - cmd: ./llvm-tblgen @@
