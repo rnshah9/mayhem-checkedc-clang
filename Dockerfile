@@ -29,4 +29,13 @@ RUN cmake -G Ninja -DLLVM_ENABLE_PROJECTS=clang   // Required to enable Clang bu
     /checkedc-clang/src/llvm 
 
 RUN ninja clang
+
+RUN mkdir -p /deps
+RUN ldd /checkedc-clang/build/bin/llvm-tblgen | tr -s '[:blank:]' '\n' | grep '^/' | xargs -I % sh -c 'cp % /deps;'
+
+FROM ubuntu:20.04 as package
+
+COPY --from=builder /deps /deps
+COPY --from=builder /checkedc-clang/build/bin/llvm-tblgen /checkedc-clang/build/bin/llvm-tblgen
+ENV LD_LIBRARY_PATH=/deps
 WORKDIR /checkedc-clang/build/bin/
