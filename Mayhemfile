@@ -2,5 +2,5 @@ project: checkedc-clang
 target: llvm-tblgen
 
 cmds:
-  - cmd: ./llvm-tblgen @@
+  - cmd: /llvm-tblgen @@
   
